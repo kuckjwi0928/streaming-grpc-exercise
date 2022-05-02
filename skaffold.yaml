@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+deploy:
+  kustomize:
+    paths:
+      - "./deployments/k8s/base"
+build:
+  local:
+    push: false
+  artifacts:
+    - image: streaming-grpc-exercise
+      context: .
+      docker:
+        dockerfile: Dockerfile

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"streaming-grpc-exercise/configs"
 	"streaming-grpc-exercise/internal/handler"
 	"streaming-grpc-exercise/pkg/database"
 	"streaming-grpc-exercise/pkg/repository"
@@ -12,7 +13,7 @@ import (
 )
 
 func main() {
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", 8080))
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", configs.Server.Port))
 	if err != nil {
 		panic(err)
 	}

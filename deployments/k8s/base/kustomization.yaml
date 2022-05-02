@@ -1,0 +1,12 @@
+generatorOptions:
+  disableNameSuffixHash: true
+namePrefix: streaming-grpc-exercise-
+configMapGenerator:
+  - name: config
+    literals:
+      - SERVER.PORT=8080
+commonLabels:
+  app: streaming-grpc-exercise
+resources:
+  - deployment.yaml
+  - service.yaml
