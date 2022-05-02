@@ -14,12 +14,12 @@ type bookServiceImpl struct {
 	bookRepo repository.BookRepository
 }
 
-func (b bookServiceImpl) GetAllBooks(ctx context.Context) []model.Book {
+func (b *bookServiceImpl) GetAllBooks(ctx context.Context) []model.Book {
 	return b.bookRepo.GetAllBooks(ctx)
 }
 
 func NewBookService(bookRepo repository.BookRepository) BookService {
-	return bookServiceImpl{
+	return &bookServiceImpl{
 		bookRepo: bookRepo,
 	}
 }

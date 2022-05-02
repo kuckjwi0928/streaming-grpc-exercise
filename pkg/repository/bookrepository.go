@@ -15,12 +15,12 @@ type bookRepositoryImpl struct {
 }
 
 func NewBookRepository(db *memdb.MemDB) BookRepository {
-	return bookRepositoryImpl{
+	return &bookRepositoryImpl{
 		db: db,
 	}
 }
 
-func (b bookRepositoryImpl) GetAllBooks(ctx context.Context) []model.Book {
+func (b *bookRepositoryImpl) GetAllBooks(ctx context.Context) []model.Book {
 	tx := b.db.Txn(false)
 	it, _ := tx.Get("book", "id")
 	books := make([]model.Book, 0)
