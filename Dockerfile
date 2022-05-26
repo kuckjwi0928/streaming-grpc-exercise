@@ -7,4 +7,5 @@ RUN go build -o streaming-grpc-exercise cmd/main.go
 FROM alpine:3.15.4
 WORKDIR /app
 COPY --from=builder /app/streaming-grpc-exercise ./
+CMD ["sh", "-c", "/app/streaming-grpc-exercise"]
 EXPOSE 8080

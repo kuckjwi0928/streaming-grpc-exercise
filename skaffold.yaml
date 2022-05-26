@@ -1,14 +1,17 @@
 apiVersion: skaffold/v2beta26
 kind: Config
 deploy:
-  kustomize:
-    paths:
-      - "./deployments/k8s/base"
+  helm:
+    releases:
+      - name: streaming-grpc-releases
+        chartPath: "./deployments/k8s"
+        createNamespace: true
+        namespace: streaming-grpc
+        artifactOverrides:
+          image: streaming-grpc
 build:
   local:
     push: false
   artifacts:
-    - image: streaming-grpc-exercise
+    - image: streaming-grpc
       context: .
-      docker:
-        dockerfile: Dockerfile

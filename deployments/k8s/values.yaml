@@ -1,0 +1,9 @@
+replicaCount: 1
+
+image: streaming-grpc
+
+resources: {}
+
+app:
+  environments:
+    port: 8080
