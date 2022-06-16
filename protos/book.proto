@@ -1,15 +1,30 @@
 syntax = "proto3";
 
+import "google/api/annotations.proto";
+
 option go_package = "api/pb";
 
 service BookService {
-  rpc ListBook(EmptyBookRequest) returns (stream Book);
+  rpc ListBook(EmptyBookRequest) returns (stream Book) {
+    option (google.api.http) = {
+      get: "/books"
+    };
+  }
+  rpc GetBook(GetBookRequest) returns (Book) {
+    option (google.api.http) = {
+      get: "/books/{book}"
+    };
+  }
 }
 
 message Book {
   int64 id = 1;
   string name = 2;
   string author = 3;
+}
+
+message GetBookRequest {
+  int64 id = 1;
 }
 
 message EmptyBookRequest {}

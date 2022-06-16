@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ include "streaming-grpc.fullname" . }}-gw
+  labels:
+    app.kubernetes.io/component: networking
+    {{- include "streaming-grpc.labels" . | nindent 4 }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http-{{ include "streaming-grpc.fullname" . }}
+        protocol: HTTP
+      hosts:
+        - {{ .Values.ingress.endpoint }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "streaming-grpc.fullname" . }}-vs
+  labels:
+    app.kubernetes.io/component: networking
+    {{- include "streaming-grpc.labels" . | nindent 4 }}
+spec:
+  gateways:
+    - {{ include "streaming-grpc.fullname" . }}-gw
+  hosts:
+    - {{ .Values.ingress.endpoint }}
+  http:
+    - name: {{ include "streaming-grpc.name" . }}-route
+      route:
+        - destination:
+            host: {{ include "streaming-grpc.fullname" . }}-svc.streaming-grpc.svc.cluster.local
+            port:
+              number: {{ .Values.app.environments.port }}

@@ -7,3 +7,6 @@ resources: {}
 app:
   environments:
     port: 8080
+
+ingress:
+  endpoint: "exercise.local.kuckjwi.io"

@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "streaming-grpc.fullname" . }}
+  name: {{ include "streaming-grpc.fullname" . }}-svc
   labels:
     {{- include "streaming-grpc.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
-    - port: {{ .Values.app.environments.port }}
-      targetPort: grpc
-      protocol: TCP
-      name: grpc
+    - name: http
+      port: {{ .Values.app.environments.port }}
+      targetPort: {{ .Values.app.environments.port }}
   selector:
     {{- include "streaming-grpc.selectorLabels" . | nindent 4 }}

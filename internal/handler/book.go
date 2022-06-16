@@ -33,3 +33,12 @@ func (b *bookHandler) ListBook(_ *pb.EmptyBookRequest, stream pb.BookService_Lis
 	})
 	return nil
 }
+
+func (b *bookHandler) GetBook(ctx context.Context, request *pb.GetBookRequest) (*pb.Book, error) {
+	book := b.container.BookService.GetBook(ctx, request.GetId())
+	return &pb.Book{
+		Id:     book.Id,
+		Author: book.Author,
+		Name:   book.Name,
+	}, nil
+}

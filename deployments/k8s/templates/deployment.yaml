@@ -11,15 +11,18 @@ spec:
       {{- include "streaming-grpc.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        proxy.istio.io/config: |
+          holdApplicationUntilProxyStarts: true
+          concurrency: 0
+        sidecar.istio.io/logLevel: "debug"
+        sidecar.istio.io/userVolume: '[{"name":"descriptor","configMap":{"name":"proto-descriptor","items":[{"key":"proto.pb","path":"proto.pb"}]}}]'
+        sidecar.istio.io/userVolumeMount: '[{"name":"descriptor","mountPath":"/etc/envoy"}]'
       labels:
-        {{- include "streaming-grpc.selectorLabels" . | nindent 8 }}
+        {{- include "streaming-grpc.labels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image }}"
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

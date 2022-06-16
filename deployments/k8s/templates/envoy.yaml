@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: {{ include "streaming-grpc.fullname" . }}-filter
+spec:
+  workloadSelector:
+    labels:
+      {{- include "streaming-grpc.selectorLabels" . | nindent 6 }}
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: envoy.filters.network.http_connection_manager
+              subFilter:
+                name: envoy.filters.http.router
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.grpc_json_transcoder
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
+            services:
+              - "BookService"
+            print_options:
+              add_whitespace: true
+              always_print_enums_as_ints: false
+              always_print_primitive_fields: true
+              preserve_proto_field_names: false
+            convert_grpc_status: true
+            proto_descriptor: /etc/envoy/proto.pb
