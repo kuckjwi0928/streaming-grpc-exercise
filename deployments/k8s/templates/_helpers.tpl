@@ -46,6 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "streaming-grpc.selectorLabels" -}}
+app: {{ include "streaming-grpc.name" . }}
 app.kubernetes.io/name: {{ include "streaming-grpc.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

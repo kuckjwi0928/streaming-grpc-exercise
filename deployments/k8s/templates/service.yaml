@@ -6,9 +6,9 @@ metadata:
     {{- include "streaming-grpc.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
-  ports:
-    - name: http
-      port: {{ .Values.app.environments.port }}
-      targetPort: {{ .Values.app.environments.port }}
   selector:
     {{- include "streaming-grpc.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: grpc
+      port: {{ .Values.app.environments.port }}
+      targetPort: {{ .Values.app.environments.port }}

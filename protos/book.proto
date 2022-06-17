@@ -7,12 +7,12 @@ option go_package = "api/pb";
 service BookService {
   rpc ListBook(EmptyBookRequest) returns (stream Book) {
     option (google.api.http) = {
-      get: "/books"
+      get: "/v1/books"
     };
   }
   rpc GetBook(GetBookRequest) returns (Book) {
     option (google.api.http) = {
-      get: "/books/{book}"
+      get: "/v1/books/{id}"
     };
   }
 }

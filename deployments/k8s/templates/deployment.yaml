@@ -15,7 +15,7 @@ spec:
         proxy.istio.io/config: |
           holdApplicationUntilProxyStarts: true
           concurrency: 0
-        sidecar.istio.io/logLevel: "debug"
+        sidecar.istio.io/logLevel: "info"
         sidecar.istio.io/userVolume: '[{"name":"descriptor","configMap":{"name":"proto-descriptor","items":[{"key":"proto.pb","path":"proto.pb"}]}}]'
         sidecar.istio.io/userVolumeMount: '[{"name":"descriptor","mountPath":"/etc/envoy"}]'
       labels:
@@ -26,3 +26,8 @@ spec:
           image: "{{ .Values.image }}"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          ports:
+            - containerPort: {{ .Values.app.environments.port }}
+          env:
+            - name: SERVER.PORT
+              value: {{ .Values.app.environments.port | quote }}

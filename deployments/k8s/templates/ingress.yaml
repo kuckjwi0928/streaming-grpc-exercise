@@ -14,7 +14,7 @@ spec:
         name: http-{{ include "streaming-grpc.fullname" . }}
         protocol: HTTP
       hosts:
-        - {{ .Values.ingress.endpoint }}
+        - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -27,11 +27,35 @@ spec:
   gateways:
     - {{ include "streaming-grpc.fullname" . }}-gw
   hosts:
-    - {{ .Values.ingress.endpoint }}
+    - "*"
   http:
     - name: {{ include "streaming-grpc.name" . }}-route
+      match:
+        - uri:
+            prefix: /v1/books
       route:
         - destination:
             host: {{ include "streaming-grpc.fullname" . }}-svc.streaming-grpc.svc.cluster.local
             port:
               number: {{ .Values.app.environments.port }}
+      corsPolicy:
+        allowMethods:
+          - POST
+          - GET
+          - PUT
+          - DELETE
+          - OPTIONS
+        allowHeaders:
+          - authorization
+          - keep-alive
+          - user-agent
+          - cache-control
+          - content-type
+          - content-transfer-encoding
+          - x-accept-content-transfer-encoding
+          - x-accept-response-streaming
+          - x-user-agent
+          - x-grpc-web
+        exposeHeaders:
+          - grpc-status
+          - grpc-message
