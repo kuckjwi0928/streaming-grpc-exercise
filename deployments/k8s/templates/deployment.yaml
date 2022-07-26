@@ -28,6 +28,14 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           ports:
             - containerPort: {{ .Values.app.environments.port }}
+          readinessProbe:
+            exec:
+              command: [ "/bin/grpc_health_probe", "-addr=:{{ .Values.app.environments.port }}" ]
+            initialDelaySeconds: 5
+          livenessProbe:
+            exec:
+              command: [ "/bin/grpc_health_probe", "-addr=:{{ .Values.app.environments.port }}" ]
+            initialDelaySeconds: 10
           env:
             - name: SERVER.PORT
               value: {{ .Values.app.environments.port | quote }}

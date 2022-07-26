@@ -23,6 +23,7 @@ func main() {
 	container := service.NewContainer(repo)
 
 	handler.RegisterBookService(grpcServer, container)
+	handler.RegisterHealthCheck(grpcServer)
 
 	log.Println("Starting server...")
 	err = grpcServer.Serve(lis)

@@ -12,3 +12,18 @@ spec:
     - name: grpc
       port: {{ .Values.app.environments.port }}
       targetPort: {{ .Values.app.environments.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "streaming-grpc.fullname" . }}-direct-svc
+  labels:
+    {{- include "streaming-grpc.labels" . | nindent 4 }}
+spec:
+  type: LoadBalancer
+  selector:
+    {{- include "streaming-grpc.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: grpc
+      port: {{ .Values.app.environments.port }}
+      targetPort: {{ .Values.app.environments.port }}

@@ -16,7 +16,6 @@ spec:
               name: envoy.filters.network.http_connection_manager
               subFilter:
                 name: envoy.filters.http.router
-          portNumber: 8080
       patch:
         operation: INSERT_BEFORE
         value:
@@ -29,6 +28,6 @@ spec:
               add_whitespace: true
               always_print_enums_as_ints: false
               always_print_primitive_fields: true
-              preserve_proto_field_names: false
+              preserve_proto_field_names: true
             convert_grpc_status: true
             proto_descriptor: /etc/envoy/proto.pb
