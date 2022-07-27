@@ -10,6 +10,7 @@ spec:
     {{- include "streaming-grpc.selectorLabels" . | nindent 4 }}
   ports:
     - name: grpc
+      appProtocol: grpc
       port: {{ .Values.app.environments.port }}
       targetPort: {{ .Values.app.environments.port }}
 ---
@@ -25,5 +26,6 @@ spec:
     {{- include "streaming-grpc.selectorLabels" . | nindent 4 }}
   ports:
     - name: grpc
+      appProtocol: grpc
       port: {{ .Values.app.environments.port }}
       targetPort: {{ .Values.app.environments.port }}

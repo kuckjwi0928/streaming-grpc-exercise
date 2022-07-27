@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", configs.Server.Port))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", configs.Server.Port))
 	if err != nil {
 		panic(err)
 	}
